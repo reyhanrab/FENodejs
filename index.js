@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const connect = require("./config/dbconnection");
 let httpStatus = require("./constants/httpStatus");
 const rateLimit = require("express-rate-limit");
-const authToken = require("./lib/auth")
+const authToken = require("./lib/auth");
 const UsersSchema = require("./models/users/users");
 
 //MiddleWare
@@ -74,12 +74,20 @@ app.use(async function (req, res, next) {
 const signup = require("./services/signup/signup");
 const login = require("./services/login/login");
 const logout = require("./services/logout/logout");
+const projects = require("./services/projects/projects");
+const users = require("./services/users/users");
+const staticdata = require("./services/staticdata/staticdata");
+const roles = require("./services/roles/roles");
 
 //Routes MiddleWare
 // app.use("/api/customers", customer);
 app.use("/signup", signup);
 app.use("/login", login);
 app.use("/logout", logout);
+app.use("/api/projects", projects);
+app.use("/api/users", users);
+app.use("/api/staticdata", staticdata);
+app.use("/api/roles", roles);
 
 //create connection
 connect();

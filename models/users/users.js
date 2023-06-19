@@ -27,7 +27,10 @@ const UsersSchema = mongoose.Schema({
     type: Number,
     default: null,
   },
-
+  status: {
+    type: String,
+    default: "INACTIVE",
+  },
 });
 
 module.exports = mongoose.model("users", UsersSchema);

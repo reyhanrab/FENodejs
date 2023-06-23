@@ -5,8 +5,8 @@ let httpStatus = require("../../constants/httpStatus");
 
 router.get("/", async (req, res) => {
   try {
-    const results = ProjectsSchema.find().exec();
-    res.status(200).json({ status: 200, result: results });
+    const results = await ProjectsSchema.find().exec();
+    res.status(200).json({ status: 200, results: results });
   } catch (error) {
     res.status(400).json({ status: httpStatus.failure, message: "Error while getting records due to" + error });
   }
@@ -14,15 +14,15 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const results = ProjectsSchema.findById({ _id: req.params.id }).exec();
-    res.status(200).json({ status: 200, result: results });
+    const results = await ProjectsSchema.findById({ _id: req.params.id }).exec();
+    res.status(200).json({ status: 200, results: results });
   } catch (error) {
     res.status(400).json({ status: httpStatus.failure, message: "Error while getting record due to" + error });
   }
 });
 
 router.post("/", async (req, res) => {
-  const params = req.body.createProjInputs;
+  const params = req.body.data;
   try {
     const data = await ProjectsSchema.create(params);
     res.status(200).json({ status: httpStatus.success, message: "Project added successfully", results: data });

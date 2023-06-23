@@ -18,7 +18,6 @@ const projectSchema = mongoose.Schema({
   },
   status: {
     type: String,
-    default: "ACTIVE",
   },
 });
 

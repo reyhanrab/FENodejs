@@ -7,10 +7,10 @@ const projectSchema = mongoose.Schema({
   description: {
     type: String,
   },
-  start_date: {
+  startDate: {
     type: Date,
   },
-  end_date: {
+  endDate: {
     type: Date,
   },
   owner: {
@@ -19,6 +19,10 @@ const projectSchema = mongoose.Schema({
   status: {
     type: String,
   },
+  historical: {
+    type: Boolean,
+    default: false
+  }
 });
 
 module.exports = mongoose.model("projects", projectSchema);

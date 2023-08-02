@@ -12,22 +12,30 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.put("/:id/updateRole", async (req, res) => {
-  let employeeId = req.params.employeeId,
-    roleId = req.body.roleId;
+router.patch("/:id", async (req, res) => {
   try {
-    let results = await UserSchema.updateOne({ _id: employeeId }, { role: roleId }).exec();
+    let results = await UserSchema.findByIdAndUpdate({ _id: req.params.id }, req.body.data, { new: true }).exec();
     if (results) {
-      res.status(200).json({ status: httpStatus.success, message: "Role updated successfully", results: results });
+      res.status(200).json({ status: httpStatus.success, message: "User updated successfully", results: results });
     }
   } catch (error) {
-    res.status(400).json({ status: httpStatus.failure, message: "Error while updating user role " + error.message });
+    res.status(400).json({ status: httpStatus.failure, message: "Error while updating user" + error.message });
+  }
+});
+
+router.post("/", async (req, res) => {
+  const post = new UserSchema(req.body.data);
+  try {
+    await post.save();
+    res.status(200).json({ status: httpStatus.success, message: "User Added successfully" });
+  } catch (error) {
+    res.status(400).json({ status: httpStatus.failure, message: "Error while getting records " + error.message });
   }
 });
 
 router.delete("/:id", async (req, res) => {
   try {
-    const results = await UserSchema.findByIdAndDelete({ _id: req.body.userId });
+    const results = await UserSchema.deleteOne({ _id: req.params.id }).exec();
     res.status(200).json({ message: "Record deleted successfully", results: results });
   } catch (error) {
     res.status(400).json({ message: "Error while deleting record due to" + error });

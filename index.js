@@ -41,8 +41,8 @@ app.use(async function (req, res, next) {
     next();
   } else {
     if (req.headers.authtoken) {
-      let result = authToken.verifyToken(req.headers.authtoken);
-      if (result && result.status == true) {
+      let result = authToken.verifyToken(req.headers.authtoken, res);
+      if (result && result.status === true) {
         let userId = result.payload?.userId;
         try {
           const userData = await UsersSchema.findById({ _id: userId }).exec();
@@ -61,8 +61,6 @@ app.use(async function (req, res, next) {
           });
         }
       } else {
-        res.clearCookie('authtoken')
-        res.redirect('/')
         res.status(401).json({ status: httpStatus.failure, message: result.message ? result.message : "Invalid Token" });
       }
     } else {

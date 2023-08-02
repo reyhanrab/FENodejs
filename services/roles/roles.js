@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 let RolesSchema = require("../../models/roles/roles");
+const fs = require('fs');
+const httpStatus = require("../../constants/httpStatus");
+
 
 router.get("/", async (req, res) => {
   try {
@@ -25,3 +28,16 @@ router.post("/createrole", async (req, res) => {
 });
 
 module.exports = router;
+// if(req.query.fileType == ("text/csv")){
+//   const csvContent = [
+//     ["Timestamp", "Log Level", "Message"], // CSV header
+//     ...logs.logs.map(log => [log.timestamp, log.level, log.message]) // CSV rows
+//   ].map(row => row.join("\t")).join("\n"); // Join rows with comma and lines with line break
+  
+//   const readStream = Readable.from(csvContent, "utf-8");
+
+//   // Set the appropriate headers for the CSV file download
+//   res.setHeader("Content-Type", "text/csv");
+//   res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+//   readStream.pipe(res); 
+// }

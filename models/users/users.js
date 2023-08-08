@@ -19,6 +19,9 @@ const UsersSchema = mongoose.Schema({
   role: {
     type: String,
   },
+  phoneNumber: {
+    type: String,
+  },
   tokenStatus: {
     type: Boolean,
     default: false,

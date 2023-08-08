@@ -10,12 +10,12 @@ let cookieOptions = { httpOnly: true, secure: true, sameSite: "none" };
 router.patch("/", async (req, res) => {
   try {
     const userData = await UsersSchema.findOne({ email: req.body.email }).exec();
-    if (userData.status == "INACTIVE") {
-      res.status(400).json({ message: "User is inactive, Contact Admin" });
-    }
     const validPass = await bcrypt.compare(req.body.password, userData.password);
     if (!validPass) {
       res.status(400).json({ message: "Invalid Password entered" });
+    }
+    if (userData.status == "INACTIVE") {
+      res.status(400).json({ message: "User is inactive, Contact Admin" });
     }
     const newToken = authToken.createToken(userData._id, req.body.email);
     if (newToken.status) {
@@ -23,7 +23,7 @@ router.patch("/", async (req, res) => {
         const updateDataObj = {};
         updateDataObj.tokenStatus = true;
         updateDataObj.tokenCreatedAt = Date.now();
-        const result = await UsersSchema.findByIdAndUpdate({ _id: userData._id }, updateDataObj, { new: true });
+        const result = await UsersSchema.findByIdAndUpdate({ _id: userData._id }, updateDataObj, { new: true }).exec();
         res.cookie("authtoken", newToken.token);
         res.status(200).json({ results: result, message: "Logged in successfully" });
       } catch (error) {
